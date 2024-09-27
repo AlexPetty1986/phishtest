@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>You Been Tricked!</title>
+</head>
+<body>
+<img src="media/ezgif-1-c99e5ca14a.gif" alt="phished" style="display: block;
+margin-left: auto;
+margin-right: auto;
+width: 50%;">
+</body>
+
+<script type="module">
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+import { getDatabase, ref, set, onValue, increment} from  "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+/* This stuff happens "onload" */
+// declare some variables
+let hasOpened=false;
+let newString = "Total Caught";
+const prefix = "phish-"; // change 'abc1234' to your banjo id
+const trickKey = prefix + "caught"
+// grab the stored data, will return `null` if the user has never been to this page
+const trickName = localStorage.getItem(trickKey);
+
+console.log(trickName);
+if(trickName)
+{
+    hasOpened=trickName.value;
+}
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+apiKey: "AIzaSyA4k-YwyPChzDkUzTIfSv1DKOzNthrSI58",
+authDomain: "https-test-46cc7.firebaseapp.com",
+projectId: "https-test-46cc7",
+storageBucket: "https-test-46cc7.appspot.com",
+messagingSenderId: "860224084645",
+appId: "1:860224084645:web:b6faa69d3ffc3d750b0b4c"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+console.log(app);
+
+//increment the counter
+//write card data to fire base
+export const caught = () => {
+  const db = getDatabase();
+  set(ref(db, newString), {
+    totalTricked: increment(1)
+  });
+};
+
+// if the site has never been opend by the user before
+if (hasOpened==false){
+    hasOpened=true;
+    localStorage.setItem(trickKey, hasOpened);
+    caught();
+}
+</script>
+</html>
